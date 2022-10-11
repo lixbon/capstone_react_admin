@@ -1,21 +1,12 @@
 import React from "react";
-import { DesktopView, MobileView, TabletView } from "../../HOC/Reponsive";
-import HeaderDesktop from "./HeaderDesktop";
-import HeaderMobile from "./HeaderMobile";
-import HeaderTablet from "./HeaderTablet";
+import UserNav from "./UserNav";
 
 export default function Header() {
   return (
-    <div>
-      <DesktopView>
-        <HeaderDesktop />
-      </DesktopView>
-      <TabletView>
-        <HeaderTablet />
-      </TabletView>
-      <MobileView>
-        <HeaderMobile />
-      </MobileView>
+    <div className="sticky top-0 bg-slate-900 shadow-white shadow-md h-20 border-b z-30 flex justify-center items-center">
+      <div className="max-w-layout mx-auto flex justify-end items-center">
+        <UserNav />
+      </div>
     </div>
   );
 }

@@ -30,7 +30,7 @@ export default function UserManagement() {
     fetchUserList();
   }, []);
   return (
-    <div className="container mx-auto">
+    <div className="max-w-layout mx-auto">
       <UserTable userList={userList} />
     </div>
   );
