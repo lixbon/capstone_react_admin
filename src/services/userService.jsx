@@ -29,4 +29,7 @@ export const userServ = {
       `/api/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${taiKhoan}`
     );
   },
+  addUser: (data) => {
+    return https.post("/api/QuanLyNguoiDung/ThemNguoiDung", data);
+  },
 };

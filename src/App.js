@@ -5,6 +5,8 @@ import "antd/dist/antd.min.css";
 import UserManagement from "./pages/UserManagement/UserManagement";
 import Layout from "./HOC/Layout";
 import SecureView from "./HOC/SecureView";
+import HomePage from "./pages/HomePage/HomePage";
+import MovieManagement from "./pages/MoviesManagement/MoviesManagement";
 
 function App() {
   return (
@@ -15,7 +17,23 @@ function App() {
             path="/"
             element={
               <SecureView>
+                <Layout Component={HomePage} />
+              </SecureView>
+            }
+          />
+          <Route
+            path="/usermanagerment"
+            element={
+              <SecureView>
                 <Layout Component={UserManagement} />
+              </SecureView>
+            }
+          />
+          <Route
+            path="/moviesmanagerment"
+            element={
+              <SecureView>
+                <Layout Component={MovieManagement} />
               </SecureView>
             }
           />

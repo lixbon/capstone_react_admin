@@ -10,4 +10,7 @@ export const moviesServ = {
     let uri = "/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=GP05";
     return https.get(uri);
   },
+  deleteMovie: (maPhim) => {
+    return https.delete(`/api/QuanLyPhim/XoaPhim?MaPhim=${maPhim}`);
+  },
 };

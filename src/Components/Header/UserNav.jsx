@@ -29,7 +29,12 @@ export default function UserNav() {
           <Button content={"Đăng Nhập"} />
         </NavLink>
       ) : (
-        <Button content={"Đăng Xuất"} f={handleLogOut} />
+        <div className="flex space-x-4">
+          <h3 className="text-white underline text-xl hover:text-green-400 hover:scale-105 cursor-pointer duration-200">
+            {user.taiKhoan}
+          </h3>
+          <Button content={"Đăng Xuất"} f={handleLogOut} />
+        </div>
       )}
     </div>
   );
