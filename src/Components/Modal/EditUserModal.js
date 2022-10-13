@@ -2,15 +2,21 @@ import React from "react";
 import { Button, Form, Input, message, Select } from "antd";
 import Style from "./AddUserModal.module.css";
 import { userServ } from "../../services/userService";
-export default function AddUserModal({ handlesetAddUserModal }) {
+import { seteditUserModal } from "../../redux/slice/modalslice";
+import { useDispatch, useSelector } from "react-redux";
+import { localServ } from "../../services/localService";
+export default function EditUserModal({ user }) {
+  let { editinguser } = useSelector((state) => {
+    return state.userSlice;
+  });
+  const maNhom = localServ.user.get()?.maNhom;
   const { Option } = Select;
   const onFinish = (values) => {
-    console.log(values);
     userServ
-      .addUser(values)
+      .editUser(values)
       .then((res) => {
         console.log(res);
-        message.success("Thêm Người Dùng Thành Công");
+        message.success("Cập nhật Dùng Thành Công");
       })
       .catch((err) => {
         message.error(err.response.data.content);
@@ -20,10 +26,17 @@ export default function AddUserModal({ handlesetAddUserModal }) {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  let dispatch = useDispatch();
+  let editUserModal = useSelector((state) => {
+    return state.modalSlice.editUserModal;
+  });
+  const handleEditUserModal = () => {
+    dispatch(seteditUserModal(!editUserModal));
+  };
   return (
     <div>
       <div
-        onClick={handlesetAddUserModal}
+        onClick={handleEditUserModal}
         className="h-screen w-screen top-0 left-0 fixed bg-black opacity-60 z-10"
       ></div>
       <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-20 w-1/2">
@@ -49,12 +62,12 @@ export default function AddUserModal({ handlesetAddUserModal }) {
                 name="taiKhoan"
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: "Please input your username!",
                   },
                 ]}
               >
-                <Input />
+                <Input disabled placeholder={editinguser.taiKhoan} />
               </Form.Item>
               <Form.Item
                 label="Mật Khẩu"
@@ -66,7 +79,7 @@ export default function AddUserModal({ handlesetAddUserModal }) {
                   },
                 ]}
               >
-                <Input.Password />
+                <Input.Password placeholder={editinguser.matKhau} />
               </Form.Item>
               <Form.Item
                 label="Email"
@@ -78,7 +91,7 @@ export default function AddUserModal({ handlesetAddUserModal }) {
                   },
                 ]}
               >
-                <Input />
+                <Input placeholder={editinguser.email} />
               </Form.Item>
               <Form.Item
                 label="Số Điện Thoại"
@@ -89,10 +102,10 @@ export default function AddUserModal({ handlesetAddUserModal }) {
                     message: "Please input your PhoneNumber!",
                   },
                 ]}
+                {...editinguser.soDT}
               >
-                <Input />
+                <Input placeholder={editinguser.soDT} />
               </Form.Item>
-
               <Form.Item
                 label="Mã Nhóm"
                 name="maNhom"
@@ -103,17 +116,7 @@ export default function AddUserModal({ handlesetAddUserModal }) {
                   },
                 ]}
               >
-                <Select
-                  style={{
-                    width: 120,
-                  }}
-                >
-                  <Option value="GP01">Nhóm GP01</Option>
-                  <Option value="GP02">Nhóm GP02</Option>
-                  <Option value="GP03">Nhóm GP03</Option>
-                  <Option value="GP04">Nhóm GP04</Option>
-                  <Option value="GP05">Nhóm GP05</Option>
-                </Select>
+                <Input placeholder={maNhom} />
               </Form.Item>
 
               <Form.Item
@@ -130,6 +133,7 @@ export default function AddUserModal({ handlesetAddUserModal }) {
                   style={{
                     width: 120,
                   }}
+                  placeholder={editinguser.maLoaiNguoiDung}
                 >
                   <Option value="QuanTri">Quản Trị</Option>
                   <Option value="KhachHang">Khách Hàng</Option>
@@ -146,7 +150,7 @@ export default function AddUserModal({ handlesetAddUserModal }) {
                   },
                 ]}
               >
-                <Input />
+                <Input placeholder={editinguser.hoTen} />
               </Form.Item>
               <Form.Item
                 wrapperCol={{
@@ -159,7 +163,7 @@ export default function AddUserModal({ handlesetAddUserModal }) {
                 >
                   <div className="justify-center items-center flex">
                     <Button type="primary" htmlType="submit">
-                      Thêm
+                      Cập Nhật
                     </Button>
                   </div>
                 </div>

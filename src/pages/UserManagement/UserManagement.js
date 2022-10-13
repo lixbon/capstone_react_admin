@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Button from "../../Components/Button/Button";
 import AddUserModal from "../../Components/Modal/AddUserModal";
+import EditUserModal from "../../Components/Modal/EditUserModal";
 import { userServ } from "../../services/userService";
 import UserAction from "./UserAction";
 import UserTable from "./UserTable";
@@ -11,20 +13,18 @@ export default function UserManagement() {
   const handlesetAddUserModal = () => {
     setAddUserModal(!addUserModal);
   };
+  let editUserModal = useSelector((state) => {
+    return state.modalSlice.editUserModal;
+  });
   useEffect(() => {
     let fetchUserList = () => {
       userServ
         .getUserList()
         .then((res) => {
-          let data = res.data.content.map((item) => {
+          let data = res.data.content.map((user) => {
             return {
-              ...item,
-              action: (
-                <UserAction
-                  onSuccess={fetchUserList}
-                  taiKhoan={item.taiKhoan}
-                />
-              ),
+              ...user,
+              action: <UserAction onSuccess={fetchUserList} user={user} />,
             };
           });
           setUserList(data);
@@ -47,6 +47,11 @@ export default function UserManagement() {
       {addUserModal && (
         <div className="">
           <AddUserModal handlesetAddUserModal={handlesetAddUserModal} />
+        </div>
+      )}
+      {editUserModal && (
+        <div className="">
+          <EditUserModal />
         </div>
       )}
     </div>

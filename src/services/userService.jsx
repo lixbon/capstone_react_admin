@@ -32,4 +32,7 @@ export const userServ = {
   addUser: (data) => {
     return https.post("/api/QuanLyNguoiDung/ThemNguoiDung", data);
   },
+  editUser: (data) => {
+    return https.post("/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung", data);
+  },
 };

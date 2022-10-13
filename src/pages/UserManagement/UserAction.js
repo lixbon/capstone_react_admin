@@ -1,11 +1,22 @@
 import { message } from "antd";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { seteditUserModal } from "../../redux/slice/modalslice";
+import { setEditingUserInfor } from "../../redux/slice/userSlice";
 import { userServ } from "../../services/userService";
 
-export default function UserAction({ taiKhoan, onSuccess }) {
+export default function UserAction({ user, onSuccess }) {
+  let editUserModal = useSelector((state) => {
+    return state.modalSlice.editUserModal;
+  });
+  let dispatch = useDispatch();
+  const handleEditUserModal = () => {
+    dispatch(seteditUserModal(!editUserModal));
+    dispatch(setEditingUserInfor(user));
+  };
   const handleDeleteUser = () => {
     userServ
-      .deleteUser(taiKhoan)
+      .deleteUser(user.taiKhoan)
       .then((res) => {
         message.success("Delete success");
         onSuccess();
@@ -23,7 +34,10 @@ export default function UserAction({ taiKhoan, onSuccess }) {
       >
         Remove
       </button>
-      <button className="border px-2 py-1 rounded bg-cyan-400 text-white hover:scale-110">
+      <button
+        onClick={handleEditUserModal}
+        className="border px-2 py-1 rounded bg-cyan-400 text-white hover:scale-110"
+      >
         Edit
       </button>
     </div>
