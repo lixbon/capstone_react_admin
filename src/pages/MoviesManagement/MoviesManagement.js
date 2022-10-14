@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { moviesServ } from "../../services/movieService";
 import MovieAction from "./MovieActions";
 import MoviesTable from "./MoviesTable";
+import { setLoadingOFF, setLoadingON } from "../../redux/slice/loadingslice";
+import { useDispatch } from "react-redux";
 
 export default function MovieManagement() {
   const [MoviesList, setMoviesList] = useState([]);
+  let dispatch = useDispatch();
   useEffect(() => {
     let fetchMoviesList = () => {
+      dispatch(setLoadingON());
       moviesServ
         .getListMovie()
         .then((res) => {
@@ -19,9 +23,11 @@ export default function MovieManagement() {
             };
           });
           setMoviesList(data);
+          dispatch(setLoadingOFF());
         })
         .catch((err) => {
           console.log(err);
+          dispatch(setLoadingOFF());
         });
     };
     fetchMoviesList();

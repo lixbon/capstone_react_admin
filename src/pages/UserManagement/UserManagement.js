@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../Components/Button/Button";
 import AddUserModal from "../../Components/Modal/AddUserModal";
 import EditUserModal from "../../Components/Modal/EditUserModal";
+import { setLoadingOFF, setLoadingON } from "../../redux/slice/loadingslice";
 import { userServ } from "../../services/userService";
 import UserAction from "./UserAction";
 import UserTable from "./UserTable";
@@ -16,8 +17,13 @@ export default function UserManagement() {
   let editUserModal = useSelector((state) => {
     return state.modalSlice.editUserModal;
   });
+  let editedUser = useSelector((state) => {
+    return state.userSlice.editedUser;
+  });
+  let dispatch = useDispatch();
   useEffect(() => {
     let fetchUserList = () => {
+      dispatch(setLoadingON());
       userServ
         .getUserList()
         .then((res) => {
@@ -28,13 +34,15 @@ export default function UserManagement() {
             };
           });
           setUserList(data);
+          dispatch(setLoadingOFF());
         })
         .catch((err) => {
           console.log(err);
+          dispatch(setLoadingOFF());
         });
     };
     fetchUserList();
-  }, []);
+  }, [editedUser]);
   return (
     <div className="max-w-layout mx-auto pt-10 relative">
       <div>

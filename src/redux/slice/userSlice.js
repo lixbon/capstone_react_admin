@@ -6,6 +6,7 @@ const initialState = {
   isLogin: true,
   user: localServ.user.get(),
   editinguser: {},
+  editedUser: {},
 };
 const userSlice = createSlice({
   name: "userSlice",
@@ -17,8 +18,12 @@ const userSlice = createSlice({
     setEditingUserInfor: (state, action) => {
       state.editinguser = action.payload;
     },
+    setEditedUserInfor: (state, action) => {
+      state.editedUser = action.payload;
+    },
   },
 });
 
-export const { setUserInfor, setEditingUserInfor } = userSlice.actions;
+export const { setUserInfor, setEditingUserInfor, setEditedUserInfor } =
+  userSlice.actions;
 export default userSlice.reducer;

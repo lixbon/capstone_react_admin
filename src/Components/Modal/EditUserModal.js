@@ -5,6 +5,7 @@ import { userServ } from "../../services/userService";
 import { seteditUserModal } from "../../redux/slice/modalslice";
 import { useDispatch, useSelector } from "react-redux";
 import { localServ } from "../../services/localService";
+import { setEditedUserInfor } from "../../redux/slice/userSlice";
 export default function EditUserModal({ user }) {
   let { editinguser } = useSelector((state) => {
     return state.userSlice;
@@ -15,8 +16,9 @@ export default function EditUserModal({ user }) {
     userServ
       .editUser(values)
       .then((res) => {
-        console.log(res);
-        message.success("Cập nhật Dùng Thành Công");
+        message.success("Cập nhật Người Dùng Thành Công");
+        dispatch(setEditedUserInfor(res.data.content));
+        dispatch(seteditUserModal(!editUserModal));
       })
       .catch((err) => {
         message.error(err.response.data.content);
@@ -51,7 +53,15 @@ export default function EditUserModal({ user }) {
             wrapperCol={{
               span: 24,
             }}
-            initialValues={{}}
+            initialValues={{
+              taiKhoan: editinguser.taiKhoan,
+              matKhau: editinguser.matKhau,
+              email: editinguser.email,
+              soDt: editinguser.soDT,
+              maNhom: maNhom,
+              maLoaiNguoiDung: editinguser.maLoaiNguoiDung,
+              hoTen: editinguser.hoTen,
+            }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
@@ -67,7 +77,7 @@ export default function EditUserModal({ user }) {
                   },
                 ]}
               >
-                <Input disabled placeholder={editinguser.taiKhoan} />
+                <Input disabled />
               </Form.Item>
               <Form.Item
                 label="Mật Khẩu"
@@ -79,7 +89,7 @@ export default function EditUserModal({ user }) {
                   },
                 ]}
               >
-                <Input.Password placeholder={editinguser.matKhau} />
+                <Input.Password />
               </Form.Item>
               <Form.Item
                 label="Email"
@@ -91,7 +101,7 @@ export default function EditUserModal({ user }) {
                   },
                 ]}
               >
-                <Input placeholder={editinguser.email} />
+                <Input />
               </Form.Item>
               <Form.Item
                 label="Số Điện Thoại"
@@ -102,9 +112,8 @@ export default function EditUserModal({ user }) {
                     message: "Please input your PhoneNumber!",
                   },
                 ]}
-                {...editinguser.soDT}
               >
-                <Input placeholder={editinguser.soDT} />
+                <Input />
               </Form.Item>
               <Form.Item
                 label="Mã Nhóm"
@@ -116,7 +125,7 @@ export default function EditUserModal({ user }) {
                   },
                 ]}
               >
-                <Input placeholder={maNhom} />
+                <Input />
               </Form.Item>
 
               <Form.Item
@@ -133,7 +142,6 @@ export default function EditUserModal({ user }) {
                   style={{
                     width: 120,
                   }}
-                  placeholder={editinguser.maLoaiNguoiDung}
                 >
                   <Option value="QuanTri">Quản Trị</Option>
                   <Option value="KhachHang">Khách Hàng</Option>
@@ -150,7 +158,7 @@ export default function EditUserModal({ user }) {
                   },
                 ]}
               >
-                <Input placeholder={editinguser.hoTen} />
+                <Input />
               </Form.Item>
               <Form.Item
                 wrapperCol={{

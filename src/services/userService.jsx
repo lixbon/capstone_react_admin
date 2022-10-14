@@ -35,4 +35,10 @@ export const userServ = {
   editUser: (data) => {
     return https.post("/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung", data);
   },
+  getUserInfo: (data) => {
+    return https.post(
+      `/api/QuanLyNguoiDung/LayThongTinNguoiDung?taiKhoan=${data}`,
+      data
+    );
+  },
 };

@@ -7,10 +7,12 @@ import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./redux/slice/userSlice";
 import modalSlice from "./redux/slice/modalslice";
+import loadingSlice from "./redux/slice/loadingslice";
 const store = configureStore({
   reducer: {
     userSlice,
     modalSlice,
+    loadingSlice,
   },
   devTools: true,
 });

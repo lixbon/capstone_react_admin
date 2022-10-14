@@ -7,6 +7,7 @@ import Layout from "./HOC/Layout";
 import SecureView from "./HOC/SecureView";
 import HomePage from "./pages/HomePage/HomePage";
 import MovieManagement from "./pages/MoviesManagement/MoviesManagement";
+import UserInfo from "./pages/UserManagement/UserInfo";
 
 function App() {
   return (
@@ -26,6 +27,14 @@ function App() {
             element={
               <SecureView>
                 <Layout Component={UserManagement} />
+              </SecureView>
+            }
+          />
+          <Route
+            path="/usermanagerment/:taikhoan"
+            element={
+              <SecureView>
+                <Layout Component={UserInfo} />
               </SecureView>
             }
           />
